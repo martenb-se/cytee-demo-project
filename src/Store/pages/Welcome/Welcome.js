@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import exchangeInfo from "src/api/exchangeInfo";
-
+import exchangeInfo from "../../../api/exchangeInfo";
 
 const Welcome = () => {
     const [ratesState, setRatesState] = useState({})

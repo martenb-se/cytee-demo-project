@@ -6,9 +6,6 @@
 # Lock files
 package-lock.json
 
-# Compiled files
-/public
-
 # dependencies
 /node_modules
 /.pnp
