@@ -16,38 +16,38 @@ const getTodayTimeStamp = () => {
 }
 
 /**
- * Retrieve the number of days between the given dates.
+ * Retrieve the number of days between a starting date and an ending date.
  *
  * @example
  * // returns 2
- * getDaysSinceDate("2022-06-01", "2022-05-30");
+ * getDaysSinceDate("2022-05-30", "2022-06-01");
  *
- * @param {string} newDateTimeStamp The date to count the number of days to.
- * @param {string} oldDateTimeStamp The date to count the number of days from.
+ * @param {string} startDateTimeStamp The date to count the number of days from.
+ * @param {string} endDateTimeStamp The date to count the number of days to.
  * @returns {number} The number of days since the given date.
  */
-const getDaysSinceDate = (newDateTimeStamp, oldDateTimeStamp) => {
-    if (typeof newDateTimeStamp !== 'string')
+const getDaysUntilDate = (startDateTimeStamp, endDateTimeStamp) => {
+    if (typeof endDateTimeStamp !== 'string')
         throw new InvalidArgumentError("New date timestamp must be a string", "newDateTimeStamp");
 
-    if (typeof oldDateTimeStamp !== 'string')
-        throw new InvalidArgumentError("Old date timestamp must be a string", "oldDateTimeStamp");
+    if (typeof startDateTimeStamp !== 'string')
+        throw new InvalidArgumentError("Old date timestamp must be a string", "startDateTimeStamp");
 
-    const newDate = new Date(newDateTimeStamp);
-    const oldDate = new Date(oldDateTimeStamp);
+    const newDate = new Date(endDateTimeStamp);
+    const oldDate = new Date(startDateTimeStamp);
 
     if (newDate.toString() === 'Invalid Date')
         throw new InvalidArgumentError("New date timestamp was invalid", "newDateTimeStamp");
 
     if (oldDate.toString() === 'Invalid Date')
-        throw new InvalidArgumentError("Old date timestamp was invalid", "oldDateTimeStamp");
+        throw new InvalidArgumentError("Old date timestamp was invalid", "startDateTimeStamp");
 
     if (newDate - oldDate < 0) {
-        throw new InvalidArgumentError("Old date timestamp cannot be after today's date", "oldDateTimeStamp")
+        throw new InvalidArgumentError("Old date timestamp cannot be after today's date", "startDateTimeStamp")
     }
 
     const timeDifference = newDate - oldDate;
     return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 }
 
-export {getTodayTimeStamp, getDaysSinceDate}
+export {getTodayTimeStamp, getDaysUntilDate}

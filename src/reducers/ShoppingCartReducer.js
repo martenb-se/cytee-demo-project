@@ -22,7 +22,7 @@ const shoppingCartReducerFunction = (state, action) => {
                     ' could not be found in shopping cart');
             }
 
-            newState.items.split(removedItemIndex, 1);
+            newState.items.splice(removedItemIndex, 1);
             return newState;
             
         case 'editItem':
@@ -37,6 +37,10 @@ const shoppingCartReducerFunction = (state, action) => {
             // TODO: check if action.payload is good.
 
             newState.items.splice(editedItemIndex, 1, newItem);
+            return newState;
+
+        case 'clearCart':
+            newState.items = [];
             return newState;
 
         default:

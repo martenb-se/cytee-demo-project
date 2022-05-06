@@ -1,85 +1,40 @@
-import {Fragment, useContext, useEffect, useState} from "react";
-import itemInfo from "../../../api/itemInfo";
+import {useEffect, useState} from "react";
 
-import {shoppingCartContext} from "../../../App";
-import {getDaysSinceDate} from "../../../util/timeHandling";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import itemInfo from "../../../api/itemInfo";
+import ItemListDisplay from "../../components/ItemListDisplay";
+import ShoppingCartMiniDisplay from "../../components/ShoppingCartMiniDisplay";
 
 const Welcome = () => {
-
-    const [shoppingCartState, shoppingCartReducer] = useContext(shoppingCartContext);
     const [itemsListState, setItemsListState] = useState([]);
 
     useEffect(() => {
-        itemInfo.getItems().then((itemList) => {
-            setItemsListState(itemList);
-        })
+        /**
+         * TESTER NOTICE:
+         *      This is supposed call an API and handle the returned PROMISE by itemInfo.getItems() where the item
+         *      list is returned by the promise and then setItemsListState(itemList) is called. But as PROMISES are
+         *      not supported by the test creation tool the current implementation of is synchronous and sequential
+         *      and the item list is simply returned by itemInfo.getItems().
+         */
+        setItemsListState(itemInfo.getItems());
     },[]);
 
     return (
-        <div>
-            <div>
-                <span>Our Products</span>
-                <ul>
-                    {itemsListState.map((currentItem) => (
-                        <li>
-                            {currentItem.isDiscounted && (
-                                <span className="discounted-item">
-                                    {currentItem.name} ({currentItem.discountPrice} SEK)
-                                    <sup>discounted for {getDaysSinceDate(currentItem.discountDate)}</sup>
-                                </span>
-                            ) || (
-                                <span>
-                                    {currentItem.name} ({currentItem.price} SEK)
-                                </span>
-                            )}
-                            <button
-                                onClick={() => {
-                                    shoppingCartReducer({
-                                        type: 'addItem',
-                                        payload: currentItem
-                                    });
-                                }}
-                            >
-                                Add Item
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <div>
-                <span>Shopping cart</span>
-                <ul>
-                    {
-                        (shoppingCartState.items.length > 0) && (
-                            <span>No items in shopping cart</span>
-                        ) || (
-                            <li>
-                                {
-                                    shoppingCartState.items.map(currentItem => (
-                                            <Fragment>
-                                                <span>
-                                                    {currentItem.name} {currentItem.price} SEK {currentItem.amount}#
-                                                </span>
-                                                <button
-                                                    onClick={() => {
-                                                        shoppingCartReducer({
-                                                            type: 'removeItem',
-                                                            payload: currentItem.id,
-                                                        });
-                                                    }}
-                                                >
-                                                    Remove Item
-                                                </button>
-                                            </Fragment>
-                                        )
-                                    )
-                                }
-                            </li>
-                        )
-                    }
-                </ul>
-            </div>
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    <div><h3>Top 10 Items</h3></div>
+                    <ItemListDisplay itemList={itemsListState} />
+                </Col>
+                <Col xs lg="2">
+                    <div><h4>Shopping Cart</h4></div>
+                    <ShoppingCartMiniDisplay />
+                </Col>
+            </Row>
+        </Container>
     )
 };
 
