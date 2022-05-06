@@ -1,15 +1,14 @@
-const exchangeInfo = {
-    getRates: () => {
+const itemInfo = {
+    getItems: () => {
         return new Promise((doResolve, doReject) => {
-            fetch('https://api.coingecko.com/api/v3/exchange_rates')
+            fetch('https://api.storepage.dev/get_items')
             .then((fetchResult) => {
                 return fetchResult.json();
             }).then(data => {
-                console.log(data);
                 doResolve(data);
             });
         });
     }
 }
 
-export default exchangeInfo
+export default itemInfo
