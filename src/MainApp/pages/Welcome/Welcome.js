@@ -7,7 +7,7 @@ import {getDaysSinceDate} from "../../../util/timeHandling";
 const Welcome = () => {
 
     const [shoppingCartState, shoppingCartReducer] = useContext(shoppingCartContext);
-    const [itemsListState, setItemsListState] = useState({});
+    const [itemsListState, setItemsListState] = useState([]);
 
     useEffect(() => {
         itemInfo.getItems().then((itemList) => {
@@ -50,12 +50,12 @@ const Welcome = () => {
                 <span>Shopping cart</span>
                 <ul>
                     {
-                        (shoppingCartState.length > 0) && (
+                        (shoppingCartState.items.length > 0) && (
                             <span>No items in shopping cart</span>
                         ) || (
                             <li>
                                 {
-                                    shoppingCartState.map(currentItem => (
+                                    shoppingCartState.items.map(currentItem => (
                                             <Fragment>
                                                 <span>
                                                     {currentItem.name} {currentItem.price} SEK {currentItem.amount}#
