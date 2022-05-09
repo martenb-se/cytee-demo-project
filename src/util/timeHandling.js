@@ -27,20 +27,24 @@ const getTodayTimeStamp = () => {
  * @returns {number} The number of days since the given date.
  */
 const getDaysUntilDate = (startDateTimeStamp, endDateTimeStamp) => {
-    if (typeof endDateTimeStamp !== 'string')
+    if (typeof endDateTimeStamp !== 'string') {
         throw new InvalidArgumentError("New date timestamp must be a string", "newDateTimeStamp");
+    }
 
-    if (typeof startDateTimeStamp !== 'string')
+    if (typeof startDateTimeStamp !== 'string') {
         throw new InvalidArgumentError("Old date timestamp must be a string", "startDateTimeStamp");
+    }
 
     const newDate = new Date(endDateTimeStamp);
     const oldDate = new Date(startDateTimeStamp);
 
-    if (newDate.toString() === 'Invalid Date')
+    if (newDate.toString() === 'Invalid Date') {
         throw new InvalidArgumentError("New date timestamp was invalid", "newDateTimeStamp");
+    }
 
-    if (oldDate.toString() === 'Invalid Date')
+    if (oldDate.toString() === 'Invalid Date') {
         throw new InvalidArgumentError("Old date timestamp was invalid", "startDateTimeStamp");
+    }
 
     if (newDate - oldDate < 0) {
         throw new InvalidArgumentError("Old date timestamp cannot be after today's date", "startDateTimeStamp")

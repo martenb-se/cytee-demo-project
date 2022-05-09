@@ -65,7 +65,7 @@ const fakedStoreDatabase = {
         },
         {
             _id: "6274d771fdb917fcccd75b1c",
-            name: "Apple AirPods (2nd Generation) med laddningsetui",
+            name: "Apple AirPods (2nd Generation)",
             price: 1180,
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis congue nunc nec luctus dictum."
         },

@@ -4,12 +4,24 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import itemInfo from "../../../api/itemInfo";
 import ItemListDisplay from "../../components/ItemListDisplay";
 import ShoppingCartMiniDisplay from "../../components/ShoppingCartMiniDisplay";
 
+import itemInfo from "../../../api/itemInfo";
+import {getDaysUntilDate, getTodayTimeStamp} from "../../../util/timeHandling";
+
+/**
+ * The main page for our store. Contains a component for displaying our items and the shopping cart.
+ *
+ * @returns {JSX.Element} The main page.
+ * @constructor
+ */
 const Welcome = () => {
     const [itemsListState, setItemsListState] = useState([]);
+
+    const storeDescriptions = ["Amazing", "Fantastic", "Awesome", "Great"];
+    const [storeDescriptionState, setStoreDescriptionState] = useState(storeDescriptions[0]);
+
 
     useEffect(() => {
         /**
@@ -20,13 +32,25 @@ const Welcome = () => {
          *      and the item list is simply returned by itemInfo.getItems().
          */
         setItemsListState(itemInfo.getItems());
+
+        setStoreDescriptionState(storeDescriptions[Math.floor(Math.random() * storeDescriptions.length)]);
     },[]);
 
     return (
         <Container>
             <Row>
+                <h1>
+                    Welcome to Our <span className="fst-italic text-success">
+                    {storeDescriptionState}</span> Store!
+                </h1>
+                <p>
+                    Stay tuned for our grand opening event
+                    in {getDaysUntilDate(getTodayTimeStamp(), "2022-06-14")} day(s)!
+                </p>
+            </Row>
+            <Row>
                 <Col>
-                    <div><h3>Top 10 Items</h3></div>
+                    <div><h3>Most Popular Items {getTodayTimeStamp()}</h3></div>
                     <ItemListDisplay itemList={itemsListState} />
                 </Col>
                 <Col xs lg="2">

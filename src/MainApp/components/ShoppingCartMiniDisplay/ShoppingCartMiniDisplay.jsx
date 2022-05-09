@@ -1,4 +1,5 @@
 import {useContext, useEffect, useState} from "react";
+import cloneDeep from "lodash/cloneDeep";
 import {shoppingCartContext} from "../../../App";
 
 import ListGroup from "react-bootstrap/ListGroup";
@@ -6,8 +7,7 @@ import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 
 import {sortByProperty} from "../../../util/objectArrayHandling";
-import cloneDeep from "lodash/cloneDeep";
-import {calculateTotalPriceOfCart} from "../../../util/shoppingCartListHandler";
+import {calculateTotalPriceOfCart} from "../../../util/shoppingCartListHandling";
 
 const ShoppingCartMiniDisplay = () => {
     const [shoppingCartState, shoppingCartReducer] = useContext(shoppingCartContext);
@@ -16,10 +16,12 @@ const ShoppingCartMiniDisplay = () => {
 
     useEffect(() => {
         const clonedShoppingCartItems = cloneDeep(shoppingCartState.items);
-        sortByProperty(clonedShoppingCartItems, "lastChanged");
-        clonedShoppingCartItems.reverse();
-        setLastThreeItemsState(clonedShoppingCartItems.slice(0,3));
-        setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
+        if (clonedShoppingCartItems.length > 0) {                                                                       // [INTENTIONAL BUG POSSIBILITY] Remove this and error is thrown from sortByProperty()
+            sortByProperty(clonedShoppingCartItems, "lastChanged");
+            clonedShoppingCartItems.reverse();
+            setLastThreeItemsState(clonedShoppingCartItems.slice(0,3));
+            setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
+        }
     },[shoppingCartState]);
 
     return (

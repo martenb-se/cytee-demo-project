@@ -9,19 +9,29 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 
 import {sortByProperty} from "../../../util/objectArrayHandling";
-import {calculateTotalPriceOfCart} from "../../../util/shoppingCartListHandler";
+import {calculateTotalPriceOfCart} from "../../../util/shoppingCartListHandling";
 
+/**
+ * The shopping cart page for our store. Shows the complete shopping cart and enables the customer a fast and easy
+ * checkout with a single click.
+ *
+ * @returns {JSX.Element} The shopping cart page.
+ * @constructor
+ */
 const ShoppingCart = () => {
     const [shoppingCartState, shoppingCartReducer] = useContext(shoppingCartContext);
     const [orderedShoppingCartItemsState, setOrderedShoppingCartItemsState] = useState([]);
     const [totalPriceState, setTotalPriceState] = useState(0);
+
     const navigate = useNavigate();
 
     useEffect(() => {
         const clonedShoppingCartItems = cloneDeep(shoppingCartState.items);
-        sortByProperty(clonedShoppingCartItems, "name");
-        setOrderedShoppingCartItemsState(clonedShoppingCartItems);
-        setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
+        if (clonedShoppingCartItems.length > 0) {                                                                       // [INTENTIONAL BUG POSSIBILITY] Remove this and error is thrown from sortByProperty()
+            sortByProperty(clonedShoppingCartItems, "name");
+            setOrderedShoppingCartItemsState(clonedShoppingCartItems);
+            setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
+        }
     },[shoppingCartState]);
 
     return (
