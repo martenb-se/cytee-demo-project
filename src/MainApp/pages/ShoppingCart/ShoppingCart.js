@@ -27,7 +27,7 @@ const ShoppingCart = () => {
 
     useEffect(() => {
         const clonedShoppingCartItems = cloneDeep(shoppingCartState.items);
-        if (clonedShoppingCartItems.length > 0) {                                                                       // [INTENTIONAL BUG POSSIBILITY] Remove this and error is thrown from sortByProperty()
+        if (clonedShoppingCartItems.length > 0) {
             sortByProperty(clonedShoppingCartItems, "name");
             setOrderedShoppingCartItemsState(clonedShoppingCartItems);
             setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));

@@ -63,7 +63,7 @@ const ItemListDisplay = ({itemList}) => {
     const createCallbackAddToShoppingCart = (item) => {
         return () => {
             let existingItemInShoppingCart = undefined;
-            if (shoppingCartState.items.length > 0) {                                                                   // [INTENTIONAL BUG POSSIBILITY] Remove this and error is thrown from getEntryByPropertyWithValue()
+            if (shoppingCartState.items.length > 0) {
                 existingItemInShoppingCart =
                     getEntryByPropertyWithValue(shoppingCartState.items, "id", item._id);
             }
