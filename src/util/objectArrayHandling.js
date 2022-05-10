@@ -1,4 +1,5 @@
 import InvalidArgumentError from "./customErrors/InvalidArgumentError";
+import cloneDeep from "lodash/cloneDeep";
 
 /**
  * In an array of objects, find an object where the given property have the given value.
@@ -63,12 +64,12 @@ const getEntriesByPropertyWithValues = (objectArray, propertyName, valueSearchAr
 }
 
 /**
- * Alters the given array to be sorted by the named property in ascending order.
+ * Returns a copy of the array which is sorted by the named property in ascending order.
  * Comparison of values uses the build in JavaScript function.
  * Read more here: https://tc39.es/ecma262/#sec-abstract-relational-comparison
  *
  * @example
- * // itemList becomes [
+ * // returns [
  * //   {name: "Apple", price: 10},
  * //   {name: "Coffee", price: 50},
  * //   {name: "Ice Cream", price: 25}
@@ -81,7 +82,7 @@ const getEntriesByPropertyWithValues = (objectArray, propertyName, valueSearchAr
  * sortByProperty(itemList, "name");
  *
  * @example
- * // itemList becomes [
+ * // returns [
  * //   {name: "Apple", price: 10},
  * //   {name: "Ice Cream", price: 25},
  * //   {name: "Coffee", price: 50}
@@ -95,7 +96,7 @@ const getEntriesByPropertyWithValues = (objectArray, propertyName, valueSearchAr
  *
  * @param {Array<{}>} objectArray The array of objects to sort.
  * @param {string} propertyName The name of the property to use when comparing each object.
- * @returns Nothing. The function alters the given array.
+ * @returns {Array<{}>} The sorted array.
  */
 const sortByProperty = (objectArray, propertyName) => {
     if (!Array.isArray(objectArray) || typeof objectArray[0] !== 'object') {
@@ -105,7 +106,12 @@ const sortByProperty = (objectArray, propertyName) => {
     if (typeof propertyName !== 'string')
         throw new InvalidArgumentError("The sought after object's property name must be a string", "propertyName");
 
-    objectArray.sort((a,b) => (a[propertyName] > b[propertyName]) ? 1 : ((b[propertyName] > a[propertyName]) ? -1 : 0))
+    const clonedObjectArray = cloneDeep(objectArray);
+
+    clonedObjectArray.sort((a,b) =>
+        (a[propertyName] > b[propertyName]) ? 1 : ((b[propertyName] > a[propertyName]) ? -1 : 0));
+
+    return clonedObjectArray;
 }
 
 export {getEntryByPropertyWithValue, getEntriesByPropertyWithValues, sortByProperty}

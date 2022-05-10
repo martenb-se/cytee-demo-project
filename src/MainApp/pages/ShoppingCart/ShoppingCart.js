@@ -1,7 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {shoppingCartContext} from "../../../App";
-import cloneDeep from "lodash/cloneDeep";
 
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
@@ -26,10 +25,10 @@ const ShoppingCart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const clonedShoppingCartItems = cloneDeep(shoppingCartState.items);
-        if (clonedShoppingCartItems.length > 0) {
-            sortByProperty(clonedShoppingCartItems, "name");
-            setOrderedShoppingCartItemsState(clonedShoppingCartItems);
+        if (shoppingCartState.items.length > 0) {
+            const sortedShoppingCartItems = sortByProperty(shoppingCartState.items, "name");
+            setOrderedShoppingCartItemsState(sortedShoppingCartItems);
+
             setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
         }
     },[shoppingCartState]);

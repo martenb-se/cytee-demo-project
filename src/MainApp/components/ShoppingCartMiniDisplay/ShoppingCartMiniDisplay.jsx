@@ -1,5 +1,4 @@
 import {useContext, useEffect, useState} from "react";
-import cloneDeep from "lodash/cloneDeep";
 import {shoppingCartContext} from "../../../App";
 
 import ListGroup from "react-bootstrap/ListGroup";
@@ -15,11 +14,10 @@ const ShoppingCartMiniDisplay = () => {
     const [totalPriceState, setTotalPriceState] = useState(0);
 
     useEffect(() => {
-        const clonedShoppingCartItems = cloneDeep(shoppingCartState.items);
-        if (clonedShoppingCartItems.length > 0) {
-            sortByProperty(clonedShoppingCartItems, "lastChanged");
-            clonedShoppingCartItems.reverse();
-            setLastThreeItemsState(clonedShoppingCartItems.slice(0,3));
+        if (shoppingCartState.items.length > 0) {
+            const sortedShoppingCartItems = sortByProperty(shoppingCartState.items, "lastChanged");
+            sortedShoppingCartItems.reverse();
+            setLastThreeItemsState(sortedShoppingCartItems.slice(0,3));
             setTotalPriceState(calculateTotalPriceOfCart(shoppingCartState.items));
         }
     },[shoppingCartState]);
